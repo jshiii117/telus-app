@@ -57,7 +57,7 @@ const classes = useStyles();
         <form className={`${classes.root} ${classes.form}`} autoComplete="off" onSubmit={handleSubmit}>
           <Typography variant="h6">IMS Subscriber Panel</Typography>
 
-          <TextField className={classes.textField} fullWidth color="secondary" name="phoneNumber" variant="outlined" label="Phone Number" value={subscriberData.phoneNumber} onChange={(e) => setSubscriberData({ ...subscriberData, phoneNumber: e.target.value })}/>
+          <TextField fullWidth color="primary" name="phoneNumber" variant="outlined" label="Phone Number" value={subscriberData.phoneNumber} onChange={(e) => setSubscriberData({ ...subscriberData, phoneNumber: e.target.value })}/>
 
           <AdditionalFields currentCommand={currentCommand} subscriberData={subscriberData} setSubscriberData={setSubscriberData}/>
 

@@ -32,9 +32,5 @@ export default makeStyles((theme) => ({
   optionBar: {
     marginTop: 10,
   },
-  textField: {
-    marginLeft: 8,
-    marginRight: 8
-  }
 }));
 

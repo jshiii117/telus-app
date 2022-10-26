@@ -1,7 +1,7 @@
 import React from 'react';
 import useStyles from './styles';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import AdditionalField from './AdditionalField/AdditionalField';
+import AdditionalField from './AdditionalField';
 
 const AdditionalFields = ({ currentCommand, subscriberData, setSubscriberData }) => {
 
