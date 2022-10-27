@@ -1,6 +1,6 @@
 import React from 'react';
 import useStyles from './styles';
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
 import AdditionalField from './AdditionalField';
 
 const AdditionalFields = ({ currentCommand, subscriberData, setSubscriberData }) => {
@@ -17,13 +17,22 @@ const AdditionalFields = ({ currentCommand, subscriberData, setSubscriberData })
 
         <AdditionalField currentCommand={currentCommand} subscriberData={subscriberData} setSubscriberData={setSubscriberData} property={'status'}/>
         
-        <FormControl disabled={currentCommand!=='Put'} className={classes.textField} fullWidth>
+        <FormControl disabled={currentCommand!=='Put'} fullWidth>
             <InputLabel>Features</InputLabel>
-            <Select className={classes.textField} value={subscriberData.features} onChange={(e) => setSubscriberData({ ...subscriberData, features: e.target.value })}>
-                <MenuItem value='callForwardNoReply'>Call Forward No Reply</MenuItem>
+            <Select value={subscriberData.features.featureName} onChange={(e) => setSubscriberData({ ...subscriberData, features: { ...subscriberData.features, callForwardNoReply: {provisioned: subscriberData.features.callForwardNoReply.provisioned, destination: subscriberData.features.callForwardNoReply.desination}}})}>
+                <MenuItem value={'Call Forward No Reply'}>Call Forward No Reply</MenuItem>
+            </Select>
+        </FormControl>
+        
+        <FormControl disabled={currentCommand!=='Put'} fullWidth>
+            <InputLabel>Provisioned</InputLabel>
+            <Select value={subscriberData.features.callForwardNoReply.provisioned} onChange={(e) => setSubscriberData({ ...subscriberData, features: { ...subscriberData.features, callForwardNoReply: {...subscriberData.features.callForwardNoReply, provisioned: e.target.value}}})}>
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
             </Select>
         </FormControl>
 
+        <TextField disabled={currentCommand!=='Put'} fullWidth name={'destination'} variant="outlined" label='Destination' value={subscriberData.features.callForwardNoReply.destination} onChange={(e) => setSubscriberData({ ...subscriberData, features: { ...subscriberData.features, callForwardNoReply: {...subscriberData.features.callForwardNoReply, destination: e.target.value}}})}/>
         </>
     );
 }

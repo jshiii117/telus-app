@@ -12,11 +12,11 @@ import AdditionalFields from './components/AdditionalFields';
 export const App = () => {
 const classes = useStyles();
 
-  const [subscriberData, setSubscriberData] = useState({phoneNumber: '', username: '', password: '', domain: '', status: '', features: {}})
+  const [subscriberData, setSubscriberData] = useState({phoneNumber: '', username: '', password: '', domain: '', status: '', features: {callForwardNoReply: {provisioned: false, destination: ''}}})
   const [currentCommand, setCommand] = useState('Get');
 
   const clear = () => {
-    setSubscriberData({phoneNumber: '', username: '', password: '', domain: '', status: '', features: {}});
+    setSubscriberData({phoneNumber: '', username: '', password: '', domain: '', status: '', features: {callForwardNoReply: {}}});
   };
 
   const handleSubmit = async (e) =>{

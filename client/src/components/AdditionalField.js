@@ -8,8 +8,7 @@ const AdditionalField = ({ currentCommand, subscriberData, setSubscriberData, pr
       }
     
     return (
-        <TextField disabled={currentCommand!=='Put'} fullWidth name={property} variant="outlined" label={capitalize(property)} value={subscriberData[property]} onChange={(e) => setSubscriberData({ ...subscriberData, [property]: e.target.value })}/>
-
+      <TextField disabled={currentCommand!=='Put'} fullWidth name={property} variant="outlined" label={capitalize(property)} value={subscriberData[property]} onChange={(e) => setSubscriberData({ ...subscriberData, [property]: e.target.value })}/>
     );
 }
 
