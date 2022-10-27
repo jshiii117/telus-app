@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import { Stack } from '@mui/material';
 import { getSubscriber, deleteSubscriber, putSubscriber } from './api';
+import { GET, DELETE, PUT } from './constants/actionTypes';
 
 import GetButton from './components/GetButton';
 import DeleteButton from './components/DeleteButton';
@@ -14,7 +15,7 @@ export const App = () => {
 
   const [featureOne, setFeatureOne] = useState({ callForwardNoReply: {provisioned: false, destination: ''}});
   const [subscriberData, setSubscriberData] = useState({phoneNumber: '', username: '', password: '', domain: '', status: '', features: featureOne})
-  const [currentCommand, setCommand] = useState('Get');
+  const [currentCommand, setCommand] = useState(GET);
   const [helpText, setHelpText] = useState('Awaiting an action')
 
   const clear = () => {
@@ -23,14 +24,13 @@ export const App = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (subscriberData.phoneNumber.length >= 10) {
-      e.preventDefault();
       switch (currentCommand) {
-        case 'Get':
-          e.preventDefault();
+        case GET:
           const res = await getSubscriber(subscriberData.phoneNumber);
           try {
-            console.log(res.features.callForwardNoReply);
             setSubscriberData({
               phoneNumber: res.phoneNumber,
               username: res.username,
@@ -44,16 +44,17 @@ export const App = () => {
                 }
               }
             });
+            setHelpText(`Showing information for ${subscriberData.phoneNumber}`); 
           } catch (error) {
             setHelpText(`No data exists for ${subscriberData.phoneNumber}`); 
           }
           break;
-        case 'Put':
+        case PUT:
           putSubscriber(subscriberData.phoneNumber, subscriberData);
           setHelpText(`Updated information for ${subscriberData.phoneNumber}`);
           clear();
           break;
-        case 'Delete':
+        case DELETE:
           deleteSubscriber(subscriberData.phoneNumber);
           setHelpText(`Deleted information at ${subscriberData.phoneNumber}`); 
           clear();
@@ -62,9 +63,8 @@ export const App = () => {
           return;
       }
       console.log(`Submitting form with command: ${currentCommand}`);
-      setCommand('Get');
+      setCommand(GET);
     } else {
-      e.preventDefault();
       setHelpText('Phone number must be greater than 10 characters'); 
     }
   };

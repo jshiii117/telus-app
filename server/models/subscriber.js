@@ -7,9 +7,6 @@ const subscriberSchema = mongoose.Schema({
     domain: String,
     status: String,
     features: {
-        // featureName: String,
-        // provisioned: Boolean,
-        // destination: String
         callForwardNoReply: {
             provisioned: Boolean,
             destination: String
