@@ -74,8 +74,10 @@ export const App = () => {
       <div className={classes.paperParent}>
       <Paper className={classes.paper}>
         <form className={`${classes.root} ${classes.form}`} autoComplete="off" onSubmit={handleSubmit}>
-          <Typography variant="h4">IMS Subscriber Panel</Typography>
-          <Typography variant="h6">{helpText}</Typography>
+          <Stack className={classes.title} direction="column">
+            <Typography variant="h4">IMS Subscriber Panel</Typography>
+            <Typography variant="h6">{helpText}</Typography>
+          </Stack>
           <TextField required fullWidth color="primary" name="phoneNumber" variant="outlined" label="Phone Number" value={subscriberData.phoneNumber} onChange={(e) => setSubscriberData({ ...subscriberData, phoneNumber: e.target.value })}/>
           <ActivableForm currentCommand={currentCommand} subscriberData={subscriberData} setSubscriberData={setSubscriberData} featureOne={featureOne} setFeatureOne={setFeatureOne}/>
           <Button className={classes.buttonSubmit} variant="contained" size="large" type="submit" fullWidth>Submit</Button>

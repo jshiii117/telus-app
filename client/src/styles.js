@@ -32,5 +32,8 @@ export default makeStyles((theme) => ({
   optionBar: {
     marginTop: 10,
   },
+  title: {
+    alignItems: 'center'
+  }
 }));
 
