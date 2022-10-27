@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField } from "@material-ui/core";
 
-const AdditionalField = ({ currentCommand, subscriberData, setSubscriberData, property }) => {
+const ActivableField = ({ currentCommand, subscriberData, setSubscriberData, property }) => {
 
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -12,4 +12,4 @@ const AdditionalField = ({ currentCommand, subscriberData, setSubscriberData, pr
     );
 }
 
-export default AdditionalField;
+export default ActivableField;

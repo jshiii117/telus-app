@@ -7,25 +7,28 @@ import GetButton from './components/GetButton';
 import DeleteButton from './components/DeleteButton';
 import PutButton from './components/PutButton';
 import useStyles from './styles';
-import AdditionalFields from './components/AdditionalFields';
+import ActivableForm from './components/ActivableForm';
 
 export const App = () => {
-const classes = useStyles();
+  const classes = useStyles();
 
-  const [subscriberData, setSubscriberData] = useState({phoneNumber: '', username: '', password: '', domain: '', status: '', features: {callForwardNoReply: {provisioned: false, destination: ''}}})
+  const [featureOne, setFeatureOne] = useState({ callForwardNoReply: {provisioned: false, destination: ''}});
+  const [subscriberData, setSubscriberData] = useState({phoneNumber: '', username: '', password: '', domain: '', status: '', features: featureOne})
   const [currentCommand, setCommand] = useState('Get');
 
   const clear = () => {
-    setSubscriberData({phoneNumber: '', username: '', password: '', domain: '', status: '', features: {callForwardNoReply: {}}});
+    setFeatureOne({ callForwardNoReply: {provisioned: false, destination: ''}});
+    setSubscriberData({phoneNumber: '', username: '', password: '', domain: '', status: '', features: featureOne});
   };
 
   const handleSubmit = async (e) =>{
-    e.preventDefault();
     switch (currentCommand){
       case 'Get':
+        e.preventDefault();
         const res = await getSubscriber(subscriberData.phoneNumber);
         try{
-          setSubscriberData({phoneNumber: res.phoneNumber, username: res.username, password: res.password, domain: res.domain, status: res.status, features: res.features});
+          console.log(res.features.callForwardNoReply);
+          setSubscriberData({phoneNumber: res.phoneNumber, username: res.username, password: res.password, domain: res.domain, status: res.status, features: { callForwardNoReply: {destination: res.features.callForwardNoReply.destination, provisioned: res.features.callForwardNoReply.provisioned}}});
         } catch (error) {
           console.log('Invalid phone number');
           clear();
@@ -59,7 +62,7 @@ const classes = useStyles();
 
           <TextField fullWidth color="primary" name="phoneNumber" variant="outlined" label="Phone Number" value={subscriberData.phoneNumber} onChange={(e) => setSubscriberData({ ...subscriberData, phoneNumber: e.target.value })}/>
 
-          <AdditionalFields currentCommand={currentCommand} subscriberData={subscriberData} setSubscriberData={setSubscriberData}/>
+          <ActivableForm currentCommand={currentCommand} subscriberData={subscriberData} setSubscriberData={setSubscriberData} featureOne={featureOne} setFeatureOne={setFeatureOne}/>
 
           <Button className={classes.buttonSubmit} variant="contained" size="large" type="submit" fullWidth>Submit</Button>
         </form>
