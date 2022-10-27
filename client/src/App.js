@@ -15,6 +15,7 @@ export const App = () => {
   const [featureOne, setFeatureOne] = useState({ callForwardNoReply: {provisioned: false, destination: ''}});
   const [subscriberData, setSubscriberData] = useState({phoneNumber: '', username: '', password: '', domain: '', status: '', features: featureOne})
   const [currentCommand, setCommand] = useState('Get');
+  const [helpText, setHelpText] = useState('Awaiting an action')
 
   const clear = () => {
     setFeatureOne({ callForwardNoReply: {provisioned: false, destination: ''}});
@@ -23,6 +24,7 @@ export const App = () => {
 
   const handleSubmit = async (e) => {
     if (subscriberData.phoneNumber.length >= 10) {
+      e.preventDefault();
       switch (currentCommand) {
         case 'Get':
           e.preventDefault();
@@ -43,16 +45,17 @@ export const App = () => {
               }
             });
           } catch (error) {
-            console.log('Invalid phone number');
-            clear();
+            setHelpText(`No data exists for ${subscriberData.phoneNumber}`); 
           }
           break;
         case 'Put':
           putSubscriber(subscriberData.phoneNumber, subscriberData);
+          setHelpText(`Updated information for ${subscriberData.phoneNumber}`);
           clear();
           break;
         case 'Delete':
           deleteSubscriber(subscriberData.phoneNumber);
+          setHelpText(`Deleted information at ${subscriberData.phoneNumber}`); 
           clear();
           break;
         default:
@@ -62,17 +65,17 @@ export const App = () => {
       setCommand('Get');
     } else {
       e.preventDefault();
-      console.log('Invalid phone number');
+      setHelpText('Phone number must be greater than 10 characters'); 
     }
   };
-
 
   return (
     <>
       <div className={classes.paperParent}>
       <Paper className={classes.paper}>
         <form className={`${classes.root} ${classes.form}`} autoComplete="off" onSubmit={handleSubmit}>
-          <Typography variant="h6">IMS Subscriber Panel</Typography>
+          <Typography variant="h4">IMS Subscriber Panel</Typography>
+          <Typography variant="h6">{helpText}</Typography>
           <TextField required fullWidth color="primary" name="phoneNumber" variant="outlined" label="Phone Number" value={subscriberData.phoneNumber} onChange={(e) => setSubscriberData({ ...subscriberData, phoneNumber: e.target.value })}/>
           <ActivableForm currentCommand={currentCommand} subscriberData={subscriberData} setSubscriberData={setSubscriberData} featureOne={featureOne} setFeatureOne={setFeatureOne}/>
           <Button className={classes.buttonSubmit} variant="contained" size="large" type="submit" fullWidth>Submit</Button>
