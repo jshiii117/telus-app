@@ -24,11 +24,10 @@ export const App = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     if (subscriberData.phoneNumber.length >= 10) {
       switch (currentCommand) {
         case GET:
+          e.preventDefault();
           const res = await getSubscriber(subscriberData.phoneNumber);
           try {
             setSubscriberData({
@@ -50,6 +49,7 @@ export const App = () => {
           }
           break;
         case PUT:
+          e.preventDefault();
           putSubscriber(subscriberData.phoneNumber, subscriberData);
           setHelpText(`Updated information for ${subscriberData.phoneNumber}`);
           clear();
@@ -65,6 +65,7 @@ export const App = () => {
       console.log(`Submitting form with command: ${currentCommand}`);
       setCommand(GET);
     } else {
+      e.preventDefault();
       setHelpText('Phone number must be greater than 10 characters'); 
     }
   };
